@@ -5,6 +5,7 @@ public class Main {
         Game game = Game.GetGameInstance();
         game.registerAsPlayer();
         game.savePlayerData();
+        game.runMenu();
     }
 }
 

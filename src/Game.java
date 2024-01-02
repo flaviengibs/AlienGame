@@ -92,16 +92,64 @@ public class Game {
             final FileWriter fileWriter = new FileWriter("save.json", false);
             final JsonWriter jsonWriter = new JsonWriter(fileWriter);
             jsonWriter.beginObject();
+            jsonWriter.name("Players");
             jsonWriter.beginArray();
-            for(Player p: players.values()) {
+            for (Player p : players.values()) {
                 gson.toJson(p, Player.class, jsonWriter);
             }
-            jsonWriter.endObject();
             jsonWriter.endArray();
+            jsonWriter.endObject();
+            fileWriter.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+
+    }
+
+    @SuppressWarnings("SpellCheckingInspection")
+    public void showMenu() {
+        System.out.println("1. Créer une nouvelle partie");
+        System.out.println("2. Se connecter en tant que joueur (pour recevoir votre nombre de missiles)");
+        System.out.println("3. QUITTER");
+
+    }
+
+    public void runMenu() {
+        boolean exit = false;
+        Scanner input = new Scanner(System.in);
+        showMenu();
+        int a = input.nextInt();
+        while (!exit) {
+            switch (a) {
+                case 1:
+                    gameLaunch();
+                    break;
+                case 2:
+                    login();
+                    break;
+                case 3:
+                    exit = true;
+                    break;
+            }
+
+        }
+    }
+
+    public void login() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("To login as player, please enter your username");
+        String nameLoginPlayer = input.nextLine();
+        System.out.println("Now please enter your password");
+        String providedPwd = input.nextLine();
+        Player thePlayer = null;
+        for (String playerUsername : players.keySet()) {
+            Player c = players.get(playerUsername);
+            if (c.getName().equals(nameLoginPlayer)) {
+                thePlayer = c;
+                break;
+            }
+        }
 
     }
 }
